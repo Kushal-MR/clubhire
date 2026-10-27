@@ -160,3 +160,269 @@ dialog::backdrop { background: rgba(15, 23, 42, .45); }
   .hero h1 { font-size: 26px; }
   .label { font-size: 10px; }
 }
+
+/* Consistent layout for the RVCE clubs and teams section */
+#clubsGrid {
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+}
+
+#clubsGrid > .card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 395px;
+  padding: 24px;
+}
+
+/* Consistent club heading and text spacing */
+#clubsGrid > .card h3 {
+  margin: 0 0 22px;
+  line-height: 1.4;
+  min-height: 28px;
+}
+
+#clubsGrid > .card p {
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+/* Keep official website links the same color as other club names */
+#clubsGrid > .card h3 a,
+#clubsGrid > .card h3 a:visited,
+#clubsGrid > .card h3 a:hover,
+#clubsGrid > .card h3 a:active {
+  color: #172033;
+  text-decoration: none;
+}
+
+#clubsGrid > .card h3 a:hover {
+  text-decoration: underline;
+}
+
+/* Align Register buttons at the bottom of every card */
+#clubsGrid > .card .btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+  text-align: left;
+}
+
+/* Adjust card height and padding for smaller screens */
+@media (max-width: 600px) {
+  #clubsGrid > .card {
+    min-height: 0;
+    padding: 20px;
+  }
+}
+
+/* Larger club names */
+#clubsGrid > .card h3 {
+  font-size: 1.35rem;
+  font-weight: 750;
+  line-height: 1.4;
+  margin: 0 0 14px;
+}
+
+#clubsGrid > .card h3 a,
+#clubsGrid > .card h3 a:visited,
+#clubsGrid > .card h3 a:hover {
+  color: #172033;
+  text-decoration: none;
+}
+
+#clubsGrid > .card h3 a:hover {
+  text-decoration: underline;
+}
+
+/* Website and Instagram links */
+#clubsGrid .club-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 22px;
+  font-size: 0.9rem;
+}
+
+#clubsGrid .club-socials a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#clubsGrid .club-socials a:hover {
+  text-decoration: underline;
+}
+
+#clubsGrid .social-placeholder {
+  color: #7b8495;
+  font-size: 0.85rem;
+}
+
+/* ===== RVCE Club Directory: refined visual style ===== */
+
+.clubs-section {
+  padding-top: 34px;
+  padding-bottom: 48px;
+}
+
+.clubs-heading {
+  margin-bottom: 26px;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #6b6257;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.clubs-heading h2 {
+  margin: 0 0 12px;
+  color: #172033;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -1.1px;
+}
+
+.clubs-heading h2 span {
+  color: #6c55c9;
+}
+
+.clubs-heading p {
+  max-width: 680px;
+  margin: 0;
+  color: #697386;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Equal-height cards */
+#clubsGrid {
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+  gap: 20px;
+}
+
+#clubsGrid > .card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 360px;
+  padding: 25px;
+  border: 1px solid #e1e3eb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(24, 32, 51, 0.035);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+#clubsGrid > .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(24, 32, 51, 0.09);
+}
+
+/* Club names */
+#clubsGrid > .card h3 {
+  margin: 0 0 18px;
+  min-height: 0;
+  color: #172033;
+  font-size: 1.45rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: -0.4px;
+}
+
+#clubsGrid > .card h3 a,
+#clubsGrid > .card h3 a:link,
+#clubsGrid > .card h3 a:visited,
+#clubsGrid > .card h3 a:hover,
+#clubsGrid > .card h3 a:active {
+  color: #172033 !important;
+  text-decoration: none;
+}
+
+#clubsGrid > .card h3 a:hover {
+  text-decoration: underline;
+  text-decoration-color: #6c55c9;
+  text-underline-offset: 5px;
+}
+
+/* Website and Instagram links: no blue text */
+#clubsGrid .club-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 22px;
+  font-size: 0.88rem;
+}
+
+#clubsGrid .club-socials a,
+#clubsGrid .club-socials a:link,
+#clubsGrid .club-socials a:visited,
+#clubsGrid .club-socials a:active {
+  color: #343b4b !important;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+#clubsGrid .club-socials a:hover {
+  color: #6c55c9 !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+#clubsGrid .social-placeholder {
+  color: #858b98;
+  font-size: 0.85rem;
+}
+
+/* Recruitment information */
+#clubsGrid > .card p {
+  margin: 0 0 17px;
+  color: #454d5c;
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+#clubsGrid > .card p strong {
+  color: #20283a;
+  font-weight: 750;
+}
+
+/* Registration button aligned at the bottom */
+#clubsGrid > .card .btn {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: auto;
+  border-radius: 10px;
+  text-align: left;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  .clubs-section {
+    padding-top: 24px;
+  }
+
+  .clubs-heading h2 {
+    letter-spacing: -0.5px;
+  }
+
+  #clubsGrid > .card {
+    min-height: 0;
+    padding: 21px;
+  }
+
+  #clubsGrid > .card h3 {
+    font-size: 1.3rem;
+  }
+}
+

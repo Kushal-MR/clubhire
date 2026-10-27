@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,16 +13,41 @@
     <nav id="navLinks"></nav>
   </header>
 
-  <section class="hero">
-    <h1>Find your club at RVCE</h1>
-    <p>Browse open recruitments, apply in one click and track your application from <b>Applied</b> to <b>Selected</b>.</p>
+  <section class="container clubs-section">
+  <div class="clubs-heading">
+    <span class="section-eyebrow">RVCE CLUB DIRECTORY · 2026</span>
+    <h2>Find Your People. <span>Build Something Great.</span></h2>
+    <p>
+      From coding and space technology to racing, robotics and entrepreneurship—
+      find the team where you belong.
+    </p>
+  </div>
+
+  <div id="clubsGrid" class="grid"></div>
+</section>
+
+  <!-- Explore all RVCE clubs and teams -->
+  <section class="container">
+    <h2>Explore RVCE Clubs &amp; Teams</h2>
+    <p class="muted">
+      Discover student clubs, explore their work, and register for recruitment.
+    </p>
+    <div id="clubsGrid" class="grid"></div>
   </section>
 
+  <!-- Existing recruitment listings -->
   <main class="container">
     <div class="filters">
-      <input id="searchInput" type="search" placeholder="Search by role or skill (e.g. Python, CAD)">
-      <select id="clubFilter"><option value="">All clubs</option></select>
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search by role or skill (e.g. Python, CAD)"
+      >
+      <select id="clubFilter">
+        <option value="">All clubs</option>
+      </select>
     </div>
+
     <p id="resultInfo" class="muted"></p>
     <div id="openingsGrid" class="grid"></div>
   </main>
@@ -37,31 +63,56 @@
       <label>Email <input name="email" type="email" required></label>
       <label>Password <input name="password" type="password" required></label>
       <p class="error" id="loginError"></p>
+
       <div class="actions">
         <button type="button" class="btn ghost close-dialog">Cancel</button>
         <button type="submit" class="btn">Log in</button>
       </div>
+
       <p class="hint">Demo: student@rvce.edu.in or coding@rvce.edu.in · password123</p>
     </form>
 
     <form id="registerForm" hidden novalidate>
       <label>Full name <input name="name" required></label>
       <label>College email <input name="email" type="email" required></label>
+
       <div class="row">
         <label>USN <input name="usn" placeholder="1RV24CS101" required></label>
+
         <label>Branch
           <select name="branch" required>
-            <option value="">Select</option><option>CSE</option><option>ISE</option><option>AIML</option>
-            <option>ECE</option><option>EEE</option><option>ME</option><option>CV</option>
+            <option value="">Select</option>
+            <option>CSE</option>
+            <option>ISE</option>
+            <option>AIML</option>
+            <option>ECE</option>
+            <option>EEE</option>
+            <option>ME</option>
+            <option>CV</option>
           </select>
         </label>
+
         <label>Year
-          <select name="year" required><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+          <select name="year" required>
+            <option value="">Select</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
         </label>
       </div>
-      <label>Skills <input name="skills" placeholder="comma separated, e.g. Python, CAD, Design"></label>
-      <label>Password <input name="password" type="password" placeholder="at least 8 characters" required></label>
+
+      <label>Skills
+        <input name="skills" placeholder="comma separated, e.g. Python, CAD, Design">
+      </label>
+
+      <label>Password
+        <input name="password" type="password" placeholder="at least 8 characters" required>
+      </label>
+
       <p class="error" id="registerError"></p>
+
       <div class="actions">
         <button type="button" class="btn ghost close-dialog">Cancel</button>
         <button type="submit" class="btn">Create account</button>
@@ -74,11 +125,21 @@
     <h2 id="applyTitle"></h2>
     <p class="muted" id="applyClub"></p>
     <p id="applyDesc"></p>
+
     <form id="applyForm" novalidate>
-      <label>Why do you want to join? <span class="muted" id="charCount">0 / 500</span>
-        <textarea name="message" rows="4" maxlength="500" placeholder="Tell the club about yourself and what you can contribute (min 20 characters)"></textarea>
+      <label>
+        Why do you want to join?
+        <span class="muted" id="charCount">0 / 500</span>
+        <textarea
+          name="message"
+          rows="4"
+          maxlength="500"
+          placeholder="Tell the club about yourself and what you can contribute (min 20 characters)"
+        ></textarea>
       </label>
+
       <p class="error" id="applyError"></p>
+
       <div class="actions">
         <button type="button" class="btn ghost close-dialog">Cancel</button>
         <button type="submit" class="btn">Submit application</button>
@@ -86,7 +147,9 @@
     </form>
   </dialog>
 
+  <!-- Scripts -->
   <script src="/js/api.js"></script>
   <script src="/js/home.js"></script>
+  <script src="/js/clubs.js"></script>
 </body>
 </html>
