@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClubHire · RVCE club recruitments</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="logo">Club<span>Hire</span></a>
+    <nav id="navLinks"></nav>
+  </header>
+
+  <section class="hero">
+    <h1>Find your club at RVCE</h1>
+    <p>Browse open recruitments, apply in one click and track your application from <b>Applied</b> to <b>Selected</b>.</p>
+  </section>
+
+  <main class="container">
+    <div class="filters">
+      <input id="searchInput" type="search" placeholder="Search by role or skill (e.g. Python, CAD)">
+      <select id="clubFilter"><option value="">All clubs</option></select>
+    </div>
+    <p id="resultInfo" class="muted"></p>
+    <div id="openingsGrid" class="grid"></div>
+  </main>
+
+  <!-- Login / Register dialog -->
+  <dialog id="authDialog">
+    <div class="tabs">
+      <button class="tab active" data-tab="login">Log in</button>
+      <button class="tab" data-tab="register">Sign up (students)</button>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <label>Email <input name="email" type="email" required></label>
+      <label>Password <input name="password" type="password" required></label>
+      <p class="error" id="loginError"></p>
+      <div class="actions">
+        <button type="button" class="btn ghost close-dialog">Cancel</button>
+        <button type="submit" class="btn">Log in</button>
+      </div>
+      <p class="hint">Demo: kushal@student.rvce.edu.in or jatayu@rvce.edu.in · password123</p>
+    </form>
+
+    <form id="registerForm" hidden novalidate>
+      <label>Full name <input name="name" required></label>
+      <label>College email <input name="email" type="email" required></label>
+      <div class="row">
+        <label>USN <input name="usn" placeholder="1RV24CS101" required></label>
+        <label>Branch
+          <select name="branch" required>
+            <option value="">Select</option><option>CSE</option><option>ISE</option><option>AIML</option>
+            <option>ECE</option><option>EEE</option><option>ME</option><option>CV</option>
+          </select>
+        </label>
+        <label>Year
+          <select name="year" required><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+        </label>
+      </div>
+      <label>Skills <input name="skills" placeholder="comma separated, e.g. Python, CAD, Design"></label>
+      <label>Password <input name="password" type="password" placeholder="at least 8 characters" required></label>
+      <p class="error" id="registerError"></p>
+      <div class="actions">
+        <button type="button" class="btn ghost close-dialog">Cancel</button>
+        <button type="submit" class="btn">Create account</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Apply dialog -->
+  <dialog id="applyDialog">
+    <h2 id="applyTitle"></h2>
+    <p class="muted" id="applyClub"></p>
+    <p id="applyDesc"></p>
+    <form id="applyForm" novalidate>
+      <label>Why do you want to join? <span class="muted" id="charCount">0 / 500</span>
+        <textarea name="message" rows="4" maxlength="500" placeholder="Tell the club about yourself and what you can contribute (min 20 characters)"></textarea>
+      </label>
+      <p class="error" id="applyError"></p>
+      <div class="actions">
+        <button type="button" class="btn ghost close-dialog">Cancel</button>
+        <button type="submit" class="btn">Submit application</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>

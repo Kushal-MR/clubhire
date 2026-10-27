@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club dashboard · ClubHire</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="logo">Club<span>Hire</span></a>
+    <nav id="navLinks"></nav>
+  </header>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1 id="clubTitle">Club dashboard</h1>
+        <p class="muted">Post openings and move applicants through Applied → Shortlisted → Interview → Selected.</p>
+      </div>
+      <button id="newOpeningBtn" class="btn">+ New opening</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <section class="panel">
+      <h2>Your openings</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Title</th><th>Deadline</th><th>Applicants</th><th>Status</th><th></th></tr></thead>
+          <tbody id="openingsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="applicantsPanel" hidden>
+      <div class="page-head">
+        <h2 id="applicantsTitle">Applicants</h2>
+        <select id="statusFilter">
+          <option value="">All statuses</option>
+          <option>Applied</option><option>Shortlisted</option><option>Interview</option><option>Selected</option><option>Rejected</option>
+        </select>
+      </div>
+      <div id="applicantsList"></div>
+    </section>
+  </main>
+
+  <!-- Create / edit opening -->
+  <dialog id="openingDialog">
+    <h2 id="openingDialogTitle">New opening</h2>
+    <form id="openingForm" novalidate>
+      <label>Title <input name="title" maxlength="80" required></label>
+      <label>Description <textarea name="description" rows="4" maxlength="1000" required></textarea></label>
+      <label>Skills <input name="skills" placeholder="comma separated, e.g. Python, CAD"></label>
+      <label>Deadline <input name="deadline" type="date" required></label>
+      <p class="error" id="openingError"></p>
+      <div class="actions">
+        <button type="button" class="btn ghost close-dialog">Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
