@@ -34,7 +34,7 @@ async function findOwnOpening(req, res) {
   return opening;
 }
 
-// GET /api/openings?q=drone&club=<id>&mine=1   (public list)
+// GET /api/openings?q=python&club=<id>&mine=1   (public list)
 router.get("/", async (req, res) => {
   try {
     const filter = {};

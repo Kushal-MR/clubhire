@@ -64,12 +64,12 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"kushal@student.rvce.edu.in\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"student@rvce.edu.in\",\n  \"password\": \"password123\"\n}"
             }
           }
         },
         {
-          "name": "Login (Jatayu admin)",
+          "name": "Login (Coding Club admin)",
           "request": {
             "method": "POST",
             "header": [
@@ -91,7 +91,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"jatayu@rvce.edu.in\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"coding@rvce.edu.in\",\n  \"password\": \"password123\"\n}"
             }
           }
         },
@@ -269,7 +269,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Ground Station Developer\",\n  \"description\": \"Build the web dashboard that shows live drone telemetry during flights.\",\n  \"skills\": \"JavaScript, Node.js\",\n  \"deadline\": \"2026-12-01T23:59:00\"\n}"
+              "raw": "{\n  \"title\": \"Ground Station Developer\",\n  \"description\": \"Build the dashboard that shows club members, events and attendance.\",\n  \"skills\": \"JavaScript, Node.js\",\n  \"deadline\": \"2026-12-01T23:59:00\"\n}"
             }
           }
         },

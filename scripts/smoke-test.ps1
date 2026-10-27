@@ -26,8 +26,8 @@ $adm2 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 Check "me without login -> 401" (Call GET "/auth/me" $null $stu) 401
 Check "register with bad data -> 400" (Call POST "/auth/register" @{ name = "A"; email = "bad"; password = "1"; usn = "x"; year = 9 } $stu) 400
-Check "login wrong password -> 401" (Call POST "/auth/login" @{ email = "kushal@student.rvce.edu.in"; password = "nope1234" } $stu) 401
-Check "login student" (Call POST "/auth/login" @{ email = "kushal@student.rvce.edu.in"; password = "password123" } $stu) 200
+Check "login wrong password -> 401" (Call POST "/auth/login" @{ email = "student@rvce.edu.in"; password = "nope1234" } $stu) 401
+Check "login student" (Call POST "/auth/login" @{ email = "student@rvce.edu.in"; password = "password123" } $stu) 200
 
 $list = Call GET "/openings" $null $stu
 Check "list openings" $list 200
@@ -58,7 +58,7 @@ Check "create with past deadline -> 400" (Call POST "/openings" @{ title = "Old 
 Check "admin edits opening" (Call PUT "/openings/$newId" @{ title = "Social Media & Design Lead" } $adm) 200
 Check "admin closes opening" (Call PUT "/openings/$newId" @{ isOpen = $false } $adm) 200
 
-Check "login Jatayu admin" (Call POST "/auth/login" @{ email = "jatayu@rvce.edu.in"; password = "password123" } $adm2) 200
+Check "login Coding Club admin" (Call POST "/auth/login" @{ email = "coding@rvce.edu.in"; password = "password123" } $adm2) 200
 Check "other club edits opening -> 403" (Call PUT "/openings/$newId" @{ title = "hacked" } $adm2) 403
 Check "other club moves applicant -> 403" (Call PATCH "/applications/$appId/status" @{ status = "Interview" } $adm2) 403
 

@@ -28,8 +28,8 @@ npm start                   # http://localhost:5050
 Demo logins (password for all: `password123`):
 | Role | Email |
 |---|---|
-| Student | kushal@student.rvce.edu.in |
-| Admin (Project Jatayu) | jatayu@rvce.edu.in |
+| Student | student@rvce.edu.in |
+| Admin (Coding Club) | coding@rvce.edu.in |
 | Admin (Rotaract) | rotaract@rvce.edu.in |
 
 ## Project structure
