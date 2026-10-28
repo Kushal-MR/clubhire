@@ -15,13 +15,40 @@ async function seed() {
   await connectDB();
   await Promise.all([User.deleteMany(), Club.deleteMany(), Opening.deleteMany(), Application.deleteMany()]);
 
+  // Real RVCE recruitment schedule (club directory), plus Rotaract and CodeChef used by the demo openings.
+  // formLink is left empty until each club shares its Google Form; the site then uses a general form link.
+  const c = (name, recruitmentDates, venue, rounds, extra) =>
+    Object.assign({ name, recruitmentDates, venue, rounds, category: "Technical" }, extra);
+
   const clubs = await Club.insertMany([
-    { name: "Coding Club", category: "Technical", description: "Web, app and open-source projects, weekly build sessions and hackathons." },
-    { name: "Rotaract Club of RVCE", category: "Social", description: "Community service, leadership and social impact projects." },
-    { name: "CodeChef RVCE", category: "Technical", description: "Competitive programming contests, DSA sessions and hackathons." },
-    { name: "Team Antariksh", category: "Technical", description: "Student space technology and rocketry team." }
+    c("Coding Club", "27 Oct, 29 Oct 2026", "CSE / ISE Department", "Rounds 1–2",
+      { description: "Web, app and open-source projects, weekly build sessions and hackathons.",
+        website: "https://codingclubrvce.com/", instagram: "https://www.instagram.com/coding_club_rvce/" }),
+    c("Team Antariksh", "30 Oct, 2 Nov 2026", "ETE Seminar Hall", "Rounds 1–2",
+      { description: "Student space technology and rocketry team.",
+        website: "https://www.teamantariksh.in/index.html", instagram: "https://www.instagram.com/teamantarikshofficial/" }),
+    c("Accelerate", "28 Oct 2026", "DTH", "Round 1"),
+    c("Ashwa Racing", "29 Oct, 2 Nov 2026", "IEM Seminar Hall", "Rounds 1–2"),
+    c("Dhruva", "29 Oct, 2 Nov 2026", "DTH", "Rounds 1–2"),
+    c("Entrepreneurship Cell", "28–30 Oct 2026", "Civil Seminar Hall", "Rounds 1–3"),
+    c("GDG RVCE", "29 Oct 2026", "MCA Seminar Hall", "Round 1"),
+    c("Project Garuda", "27 Oct 2026", "DTH", "Round 1"),
+    c("Project Jatayu", "27, 30 Oct 2026", "AS002 and AS003", "Rounds 1–2"),
+    c("RVCE Ham Club", "28 Oct 2026", "ETE Seminar Hall", "Round 1"),
+    c("SPARK: The IUCEE Student Chapter of RVCE", "28, 30 Oct 2026", "MCA Seminar Hall", "Rounds 1–2"),
+    c("Team Astra Robotics", "30 Oct, 2 Nov 2026", "DTH / MCA Seminar Hall", "Rounds 1–2"),
+    c("Team Chimera", "27, 30 Oct 2026", "ECE Seminar Hall", "Rounds 1–2"),
+    c("Team Chitrak", "28 Oct 2026", "Mech PG Seminar Hall", "Round 1"),
+    c("Team Elektra", "27 Oct, 2 Nov 2026", "ISE / ECE Seminar Hall", "Rounds 1–2"),
+    c("Team Helios Racing", "28 Oct, 2 Nov 2026", "Civil Classrooms / Civil Seminar Hall", "Rounds 1–2"),
+    c("Team Krushi", "27 Oct 2026", "ETE Seminar Hall", "Round 1"),
+    c("Team Vyoma", "28–29 Oct 2026", "AS002 and AS003", "Rounds 1–2"),
+    c("Rotaract Club of RVCE", "", "", "", { category: "Social", description: "Community service, leadership and social impact projects." }),
+    c("CodeChef RVCE", "", "", "", { description: "Competitive programming contests, DSA sessions and hackathons." })
   ]);
-  const [coding, rotaract, codechef, antariksh] = clubs;
+  const club = name => clubs.find(x => x.name === name);
+  const coding = club("Coding Club"), rotaract = club("Rotaract Club of RVCE"),
+        codechef = club("CodeChef RVCE"), antariksh = club("Team Antariksh");
 
   const hash = await bcrypt.hash("password123", 10);
   await User.insertMany([
@@ -55,7 +82,7 @@ async function seed() {
       history: [{ status: "Applied", note: "Application submitted", at: at(1) }] }
   ]);
 
-  console.log("Seeded: 4 clubs, 4 admins, 3 students, 5 openings, 3 applications");
+  console.log(`Seeded: ${clubs.length} clubs, 4 admins, 3 students, 5 openings, 3 applications`);
   console.log("All passwords: password123   e.g. coding@rvce.edu.in (admin), student@rvce.edu.in (student)");
   await mongoose.disconnect();
 }
