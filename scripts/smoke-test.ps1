@@ -58,6 +58,14 @@ Check "create with past deadline -> 400" (Call POST "/openings" @{ title = "Old 
 Check "admin edits opening" (Call PUT "/openings/$newId" @{ title = "Social Media & Design Lead" } $adm) 200
 Check "admin closes opening" (Call PUT "/openings/$newId" @{ isOpen = $false } $adm) 200
 
+Check "student edits club details -> 403" (Call PUT "/clubs/mine" @{ venue = "x" } $stu) 403
+Check "club details: bad link -> 400" (Call PUT "/clubs/mine" @{ formLink = "javascript:alert(1)" } $adm) 400
+Check "admin updates club schedule + form link" (Call PUT "/clubs/mine" @{ recruitmentDates = "3 Nov 2026"; venue = "Seminar Hall A"; rounds = "Round 1"; formLink = "https://forms.gle/example" } $adm) 200
+$dir = Call GET "/clubs" $null $stu
+$rot = @($dir.data) | Where-Object { $_.name -eq "Rotaract Club of RVCE" }
+Check "directory lists all clubs" $dir 200
+Write-Output ("      clubs in directory: {0}, Rotaract venue now: {1}" -f @($dir.data).Count, $rot.venue)
+
 Check "login Coding Club admin" (Call POST "/auth/login" @{ email = "coding@rvce.edu.in"; password = "password123" } $adm2) 200
 Check "other club edits opening -> 403" (Call PUT "/openings/$newId" @{ title = "hacked" } $adm2) 403
 Check "other club moves applicant -> 403" (Call PATCH "/applications/$appId/status" @{ status = "Interview" } $adm2) 403

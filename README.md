@@ -6,7 +6,8 @@ A full-stack web app where RVCE clubs post recruitment openings and students app
 
 ## Features
 - **Students:** sign up, log in, browse and search openings, apply with a message, track each application on a progress stepper and timeline, withdraw before shortlisting.
-- **Club admins:** create, edit, close/reopen and delete openings (full CRUD); view applicants; move them to the next stage with a note the student can see; reject.
+- **Club directory:** every RVCE club with its recruitment dates, venue, rounds, website, Instagram and Google Form, loaded from the database.
+- **Club admins:** keep their club's schedule and links up to date; create, edit, close/reopen and delete openings (full CRUD); view applicants; move them to the next stage with a note the student can see; reject.
 - **Role-based access:** students and admins see different pages and APIs. Admins can only touch their own club's data. Admin accounts can't be self-registered.
 - **Validation on both sides:** form checks in the browser, and the same checks again on the server, with clear error messages.
 
@@ -71,14 +72,14 @@ Demo logins (password for all: `password123`):
 New students can also sign up from the home page. Admin accounts can only be created in `seed.js`, on purpose.
 
 ### 6. Test the API (optional)
-With the server running, double-click `scripts\run-smoke-test.bat`. It runs 28 end-to-end checks (login, CRUD, validation, role and club permissions, status rules), shows the results, then resets the demo data. Results are also saved to `smoke-test-log.txt`.
+With the server running, double-click `scripts\run-smoke-test.bat`. It runs 32 end-to-end checks (login, CRUD, validation, role and club permissions, status rules), shows the results, then resets the demo data. Results are also saved to `smoke-test-log.txt`.
 You can also import `docs/ClubHire.postman_collection.json` into Postman.
 
 ### Troubleshooting
 | Problem | Fix |
 |---|---|
 | `Could not connect to MongoDB. Is it running?` | MongoDB service is stopped. See step 4. |
-| `Port 5050 is already used by another app` | Change `PORT=5050` in your `.env` to another number (e.g. 5051) and open that port in the browser instead. |
+| `Port 5050 is already used by another app` | An old ClubHire server is still running: double-click `scripts\stop-server.bat`, then `start.bat` again. If another program uses 5050, change `PORT=5050` in your `.env` to another number (e.g. 5051) and open that port in the browser instead. |
 | `'node' / 'npm' / 'git' is not recognized` | Tool not installed, or the terminal was opened before installing. Open a new terminal. |
 | `npm` errors in PowerShell about "running scripts is disabled" | Use Command Prompt instead, or double-click the `.bat` files. |
 | `Cannot find module 'express'` (or similar) | You skipped `npm install`. Run it in the `clubhire` folder. |

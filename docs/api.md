@@ -24,6 +24,8 @@ history [ {status, note, at} ]
 UNIQUE (opening, student)   <- one application per student per opening
 ```
 
+Club directory fields (all optional, editable by that club's admin): `recruitmentDates`, `venue`, `rounds`, `website`, `instagram`, `formLink` (the club's Google Form). Links must start with `http://` or `https://`.
+
 Relationships: a club has many openings, an opening has many applications, and a student has many applications. Each admin belongs to one club.
 
 Status rules (server-enforced):
@@ -36,7 +38,9 @@ Status rules (server-enforced):
 | POST | /api/auth/login | public | log in (starts a session) |
 | POST | /api/auth/logout | logged in | log out |
 | GET | /api/auth/me | logged in | current user |
-| GET | /api/clubs | public | list clubs |
+| GET | /api/clubs | public | club directory (schedule, venue, links) |
+| GET | /api/clubs/mine | admin | my club's details |
+| PUT | /api/clubs/mine | admin | update my club's schedule, venue and links |
 | GET | /api/openings?q=&club= | public | list open openings (search, filter) |
 | GET | /api/openings?mine=1 | admin | all openings of my club |
 | GET | /api/openings/:id | public | one opening |
