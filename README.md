@@ -6,7 +6,8 @@ A full-stack web app where RVCE clubs post recruitment openings and students app
 
 ## Features
 - **Students:** sign up, log in, browse and search openings, apply with a message, track each application on a progress stepper and timeline, withdraw before shortlisting.
-- **Club directory:** every RVCE club with its recruitment dates, venue, rounds, website, Instagram and Google Form, loaded from the database.
+- **Club directory:** every RVCE club with its recruitment days, venues, rounds, website, Instagram and Google Form, loaded from the database. Sort by **next recruitment first** to see what's coming up; each club shows *Today / Tomorrow / In N days / Over*.
+- **Schedule clash detection:** if two clubs book the same venue on the same day, both club admins see a red **Schedule clash** warning on their dashboard until one of them changes the day or venue.
 - **Club admins:** keep their club's schedule and links up to date; create, edit, close/reopen and delete openings (full CRUD); view applicants; move them to the next stage with a note the student can see; reject.
 - **Role-based access:** students and admins see different pages and APIs. Admins can only touch their own club's data. Admin accounts can't be self-registered.
 - **Validation on both sides:** form checks in the browser, and the same checks again on the server, with clear error messages.
@@ -67,12 +68,13 @@ Demo logins (password for all: `password123`):
 |---|---|
 | Student | student@rvce.edu.in |
 | Admin (Coding Club) | coding@rvce.edu.in |
-| Admin (Rotaract) | rotaract@rvce.edu.in |
+| Admin (GDG RVCE) | gdg@rvce.edu.in |
+| Admin (Team Astra Robotics, has schedule clashes for the demo) | astra@rvce.edu.in |
 
 New students can also sign up from the home page. Admin accounts can only be created in `seed.js`, on purpose.
 
 ### 6. Test the API (optional)
-With the server running, double-click `scripts\run-smoke-test.bat`. It runs 32 end-to-end checks (login, CRUD, validation, role and club permissions, status rules), shows the results, then resets the demo data. Results are also saved to `smoke-test-log.txt`.
+With the server running, double-click `scripts\run-smoke-test.bat`. It runs 40 end-to-end checks (login, CRUD, validation, role and club permissions, status rules, schedule clashes), shows the results, then resets the demo data. Results are also saved to `smoke-test-log.txt`.
 You can also import `docs/ClubHire.postman_collection.json` into Postman.
 
 ### Troubleshooting
@@ -91,6 +93,8 @@ You can also import `docs/ClubHire.postman_collection.json` into Postman.
 server.js              Express app: middleware, routes, error handler
 seed.js                sample data
 config/db.js           MongoDB connection
+config/venues.js       fixed list of recruitment venues
+utils/clashes.js       schedule clash detection (same venue, same day)
 models/                Mongoose schemas: User, Club, Opening, Application
 middleware/auth.js     requireLogin / requireRole guards
 routes/                auth, clubs, openings, applications (REST API)
@@ -100,6 +104,8 @@ scripts/               setup check + end-to-end API smoke test
 ```
 
 ## Docs
+- [Demo guide: step-by-step demo script with backup screenshots](docs/demo-guide.md)
+- Screenshots of every screen: `docs/screenshots/`
 - [User stories and wireframes](docs/requirements.md)
 - [Database design and REST endpoints](docs/api.md)
 - Postman: import `docs/ClubHire.postman_collection.json`

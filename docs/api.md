@@ -24,7 +24,9 @@ history [ {status, note, at} ]
 UNIQUE (opening, student)   <- one application per student per opening
 ```
 
-Club directory fields (all optional, editable by that club's admin): `recruitmentDates`, `venue`, `rounds`, `website`, `instagram`, `formLink` (the club's Google Form). Links must start with `http://` or `https://`.
+Club directory fields (all optional, editable by that club's admin): `recruitmentDays` (list of `YYYY-MM-DD`), `venues` (list, each from the fixed list in `config/venues.js`), `rounds`, `website`, `instagram`, `formLink` (the club's Google Form). Links must start with `http://` or `https://`.
+
+**Schedule clash:** two clubs share at least one recruitment day **and** at least one venue. Computed in `utils/clashes.js` and returned as `clashes: [{ day, venue, club }]` by `GET/PUT /api/clubs/mine`.
 
 Relationships: a club has many openings, an opening has many applications, and a student has many applications. Each admin belongs to one club.
 
@@ -38,9 +40,10 @@ Status rules (server-enforced):
 | POST | /api/auth/login | public | log in (starts a session) |
 | POST | /api/auth/logout | logged in | log out |
 | GET | /api/auth/me | logged in | current user |
-| GET | /api/clubs | public | club directory (schedule, venue, links) |
-| GET | /api/clubs/mine | admin | my club's details |
-| PUT | /api/clubs/mine | admin | update my club's schedule, venue and links |
+| GET | /api/clubs | public | club directory (schedule, venues, links) |
+| GET | /api/clubs/venues | public | the fixed list of venues |
+| GET | /api/clubs/mine | admin | my club's details + schedule clashes |
+| PUT | /api/clubs/mine | admin | update my club's days, venues and links; returns the new clash list |
 | GET | /api/openings?q=&club= | public | list open openings (search, filter) |
 | GET | /api/openings?mine=1 | admin | all openings of my club |
 | GET | /api/openings/:id | public | one opening |
