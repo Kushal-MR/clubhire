@@ -23,17 +23,27 @@
 
     <div class="stats" id="stats"></div>
 
+    <!-- Schedule clash warning (filled by admin.js) -->
+    <div id="clashBox" class="clash-box" hidden></div>
+
     <!-- Club details shown in the public club directory -->
     <section class="panel">
       <details id="clubDetails">
         <summary><b>Club details &amp; recruitment schedule</b> <span class="muted small">(shown in the club directory)</span></summary>
         <form id="clubForm" novalidate>
           <label>About the club <textarea name="description" rows="2" maxlength="300"></textarea></label>
-          <div class="row">
-            <label>Recruitment dates <input name="recruitmentDates" maxlength="60" placeholder="e.g. 27, 30 Oct 2026"></label>
-            <label>Venue <input name="venue" maxlength="100" placeholder="e.g. ETE Seminar Hall"></label>
-            <label>Rounds <input name="rounds" maxlength="40" placeholder="e.g. Rounds 1–2"></label>
+
+          <div class="field-label">Recruitment days</div>
+          <div id="dayList" class="day-list"></div>
+          <div class="add-day">
+            <input type="date" id="dayPicker">
+            <button type="button" id="addDayBtn" class="btn small ghost">+ Add day</button>
           </div>
+
+          <div class="field-label">Venues <span class="muted small">(pick from the list so clashes can be detected)</span></div>
+          <div id="venueChecks" class="venue-checks"></div>
+
+          <label>Rounds <input name="rounds" maxlength="40" placeholder="e.g. Rounds 1–2"></label>
           <label>Google Form link <input name="formLink" placeholder="https://forms.gle/..."></label>
           <div class="row two">
             <label>Website <input name="website" placeholder="https://..."></label>

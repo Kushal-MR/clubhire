@@ -194,27 +194,70 @@ document.getElementById("applicantsList").addEventListener("click", async e => {
   }
 });
 
-// ---------- club details (schedule, venue, links) ----------
-const CLUB_FIELDS = ["description", "recruitmentDates", "venue", "rounds", "formLink", "website", "instagram"];
+// ---------- club details: schedule, venues, links + clash warning ----------
+const TEXT_FIELDS = ["description", "rounds", "formLink", "website", "instagram"];
+let selectedDays = [];     // "YYYY-MM-DD" strings, kept sorted
+
+const dayText = d => new Date(d + "T00:00:00").toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+
+function renderDays() {
+  const box = document.getElementById("dayList");
+  box.innerHTML = selectedDays.length
+    ? selectedDays.map(d => `<span class="day-chip">${dayText(d)} <button type="button" data-day="${d}" title="Remove this day">×</button></span>`).join("")
+    : '<span class="muted small">No days added yet.</span>';
+}
+
+// red box at the top of the dashboard listing every double-booked venue
+function renderClashes(clashes) {
+  const box = document.getElementById("clashBox");
+  if (!clashes.length) { box.hidden = true; return; }
+  box.hidden = false;
+  box.innerHTML = `
+    <h3>⚠ Schedule clash (${clashes.length})</h3>
+    <p>Another club has booked the same venue on the same day:</p>
+    <ul>${clashes.map(c => `<li><b>${dayText(c.day)}</b> · ${esc(c.venue)}: also booked by <b>${esc(c.club)}</b></li>`).join("")}</ul>
+    <p class="small">Change the day or venue in <b>Club details</b> below and save. The warning disappears once the clash is fixed.</p>`;
+}
 
 async function loadClubDetails() {
   try {
-    const club = await api("GET", "/api/clubs/mine");
+    const [club, venues] = await Promise.all([api("GET", "/api/clubs/mine"), api("GET", "/api/clubs/venues")]);
     const f = document.getElementById("clubForm");
-    CLUB_FIELDS.forEach(name => { f[name].value = club[name] || ""; });
-    // open the section automatically if the schedule hasn't been filled in yet
-    if (!club.recruitmentDates) document.getElementById("clubDetails").open = true;
+    TEXT_FIELDS.forEach(name => { f[name].value = club[name] || ""; });
+    selectedDays = club.recruitmentDays.slice();
+    renderDays();
+    document.getElementById("venueChecks").innerHTML = venues.map(v => `
+      <label class="check"><input type="checkbox" value="${esc(v)}" ${club.venues.includes(v) ? "checked" : ""}> ${esc(v)}</label>`).join("");
+    renderClashes(club.clashes);
+    // open the form straight away if there's a clash to fix or the schedule is empty
+    if (club.clashes.length || !club.recruitmentDays.length) document.getElementById("clubDetails").open = true;
   } catch (err) {
     toast(err.message, "error");
   }
 }
 
+document.getElementById("addDayBtn").addEventListener("click", () => {
+  const value = document.getElementById("dayPicker").value;       // "" if nothing picked
+  if (!value) return toast("Pick a date first", "error");
+  if (!selectedDays.includes(value)) selectedDays = [...selectedDays, value].sort();
+  document.getElementById("dayPicker").value = "";
+  renderDays();
+});
+
+document.getElementById("dayList").addEventListener("click", e => {
+  const btn = e.target.closest("button[data-day]");
+  if (!btn) return;
+  selectedDays = selectedDays.filter(d => d !== btn.dataset.day);
+  renderDays();
+});
+
 document.getElementById("clubForm").addEventListener("submit", async e => {
   e.preventDefault();
   const f = e.target;
   const errorBox = document.getElementById("clubError");
-  const data = {};
-  CLUB_FIELDS.forEach(name => { data[name] = f[name].value.trim(); });
+  const data = { recruitmentDays: selectedDays };
+  TEXT_FIELDS.forEach(name => { data[name] = f[name].value.trim(); });
+  data.venues = [...document.querySelectorAll("#venueChecks input:checked")].map(c => c.value);
 
   // links must be real web links (the server checks this too)
   for (const name of ["formLink", "website", "instagram"]) {
@@ -224,9 +267,10 @@ document.getElementById("clubForm").addEventListener("submit", async e => {
     }
   }
   try {
-    await api("PUT", "/api/clubs/mine", data);
+    const saved = await api("PUT", "/api/clubs/mine", data);
     errorBox.textContent = "";
-    toast("Club details saved", "success");
+    renderClashes(saved.clashes);
+    toast(saved.clashes.length ? `Saved, but ${saved.clashes.length} clash(es) remain` : "Saved. No schedule clashes ✓", saved.clashes.length ? "error" : "success");
   } catch (err) {
     errorBox.textContent = err.message;
   }
