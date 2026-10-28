@@ -23,6 +23,28 @@
 
     <div class="stats" id="stats"></div>
 
+    <!-- Club details shown in the public club directory -->
+    <section class="panel">
+      <details id="clubDetails">
+        <summary><b>Club details &amp; recruitment schedule</b> <span class="muted small">(shown in the club directory)</span></summary>
+        <form id="clubForm" novalidate>
+          <label>About the club <textarea name="description" rows="2" maxlength="300"></textarea></label>
+          <div class="row">
+            <label>Recruitment dates <input name="recruitmentDates" maxlength="60" placeholder="e.g. 27, 30 Oct 2026"></label>
+            <label>Venue <input name="venue" maxlength="100" placeholder="e.g. ETE Seminar Hall"></label>
+            <label>Rounds <input name="rounds" maxlength="40" placeholder="e.g. Rounds 1–2"></label>
+          </div>
+          <label>Google Form link <input name="formLink" placeholder="https://forms.gle/..."></label>
+          <div class="row two">
+            <label>Website <input name="website" placeholder="https://..."></label>
+            <label>Instagram <input name="instagram" placeholder="https://www.instagram.com/..."></label>
+          </div>
+          <p class="error" id="clubError"></p>
+          <div class="actions"><button type="submit" class="btn">Save club details</button></div>
+        </form>
+      </details>
+    </section>
+
     <section class="panel">
       <h2>Your openings</h2>
       <div class="table-wrap">

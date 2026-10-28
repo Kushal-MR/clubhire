@@ -426,3 +426,9 @@ dialog::backdrop { background: rgba(15, 23, 42, .45); }
   }
 }
 
+
+/* admin: two-column row in the club details form */
+.row.two { grid-template-columns: 1fr 1fr; }
+#clubDetails summary { cursor: pointer; }
+#clubForm { margin-top: 14px; }
+@media (max-width: 600px) { .row.two { grid-template-columns: 1fr; } }
