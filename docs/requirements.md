@@ -19,6 +19,8 @@ Club recruitments at RVCE happen over Google Forms and WhatsApp groups. Students
 | 7 | club admin | see all applicants for an opening | I can review them in one place |
 | 8 | club admin | move an applicant to the next stage with a note | the student is informed (e.g. interview time) |
 | 9 | anyone | get clear error messages | I can fix wrong input |
+| 10 | student | sort clubs by their next recruitment date | I can see which recruitment is next and prepare |
+| 11 | club admin | be warned when another club books my venue on the same day | we can fix the clash before recruitment day |
 
 ## Wireframes
 
@@ -30,10 +32,10 @@ Club recruitments at RVCE happen over Google Forms and WhatsApp groups. Students
 |              Find your club at RVCE                          |
 |   [ search by role or skill...........] [ All clubs  v ]     |
 |  +----------------+  +----------------+  +----------------+  |
-|  | Coding Club    |  | Rotaract       |  | CodeChef       |  |
-|  | Web Developer  |  | Event Volunteer|  | Problem Setter |  |
+|  | Coding Club    |  | GDG RVCE       |  | Team Astra     |  |
+|  | Web Developer  |  | Event Volunteer|  | Embedded Member|  |
 |  | description... |  | description... |  | description... |  |
-|  | [Python][C++]  |  | [Teamwork]     |  | [C++][DSA]     |  |
+|  | [Python][C++]  |  | [Teamwork]     |  | [C++][Arduino] |  |
 |  | 10 days left   |  | 14 days left   |  | 8 days left    |  |
 |  |        [Apply] |  |        [Apply] |  |        [Apply] |  |
 |  +----------------+  +----------------+  +----------------+  |

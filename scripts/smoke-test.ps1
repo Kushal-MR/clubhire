@@ -20,6 +20,11 @@ function Check($name, $res, $expected) {
   Write-Output ("{0}  {1,-48} got {2}, expected {3}{4}" -f $s, $name, $res.code, $expected, $err)
 }
 
+function Expect($name, $ok, $detail) {
+  if ($ok) { $script:pass++; $s = "PASS" } else { $script:fail++; $s = "FAIL" }
+  Write-Output ("{0}  {1,-48} {2}" -f $s, $name, $detail)
+}
+
 $stu = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $adm = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $adm2 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
@@ -43,7 +48,7 @@ $mine = Call GET "/applications/mine" $null $stu
 Check "my applications" $mine 200
 Write-Output ("      student has {0} applications" -f @($mine.data).Count)
 
-Check "login Rotaract admin" (Call POST "/auth/login" @{ email = "rotaract@rvce.edu.in"; password = "password123" } $adm) 200
+Check "login GDG admin" (Call POST "/auth/login" @{ email = "gdg@rvce.edu.in"; password = "password123" } $adm) 200
 $apps = Call GET "/openings/$($volunteer._id)/applications" $null $adm
 Check "admin views applicants" $apps 200
 $appId = @($apps.data)[0]._id
@@ -58,13 +63,27 @@ Check "create with past deadline -> 400" (Call POST "/openings" @{ title = "Old 
 Check "admin edits opening" (Call PUT "/openings/$newId" @{ title = "Social Media & Design Lead" } $adm) 200
 Check "admin closes opening" (Call PUT "/openings/$newId" @{ isOpen = $false } $adm) 200
 
-Check "student edits club details -> 403" (Call PUT "/clubs/mine" @{ venue = "x" } $stu) 403
+Check "student edits club details -> 403" (Call PUT "/clubs/mine" @{ rounds = "x" } $stu) 403
 Check "club details: bad link -> 400" (Call PUT "/clubs/mine" @{ formLink = "javascript:alert(1)" } $adm) 400
-Check "admin updates club schedule + form link" (Call PUT "/clubs/mine" @{ recruitmentDates = "3 Nov 2026"; venue = "Seminar Hall A"; rounds = "Round 1"; formLink = "https://forms.gle/example" } $adm) 200
+Check "club details: invalid date -> 400" (Call PUT "/clubs/mine" @{ recruitmentDays = @("2026-13-45") } $adm) 400
+Check "club details: unknown venue -> 400" (Call PUT "/clubs/mine" @{ venues = @("My Room") } $adm) 400
+
+$astra = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+Check "login Astra admin" (Call POST "/auth/login" @{ email = "astra@rvce.edu.in"; password = "password123" } $astra) 200
+$mineA = Call GET "/clubs/mine" $null $astra
+Check "Astra sees its seeded clashes" $mineA 200
+Expect "Astra has 2 clashes (SPARK + Dhruva)" (@($mineA.data.clashes).Count -eq 2) ("found " + @($mineA.data.clashes).Count)
+
+$clash = Call PUT "/clubs/mine" @{ recruitmentDays = @("2026-10-30"); venues = @("MCA Seminar Hall"); rounds = "Round 1"; formLink = "https://forms.gle/example" } $adm
+Check "GDG books MCA Seminar Hall on 30 Oct" $clash 200
+Expect "...which is flagged as a clash" (@($clash.data.clashes).Count -ge 1) ("clashes: " + (@($clash.data.clashes) | ForEach-Object { $_.club }) -join ", ")
+$fixed = Call PUT "/clubs/mine" @{ recruitmentDays = @("2026-11-05") } $adm
+Check "GDG moves to 5 Nov" $fixed 200
+Expect "...and the clash flag clears" (@($fixed.data.clashes).Count -eq 0) ("clashes: " + @($fixed.data.clashes).Count)
+
 $dir = Call GET "/clubs" $null $stu
-$rot = @($dir.data) | Where-Object { $_.name -eq "Rotaract Club of RVCE" }
 Check "directory lists all clubs" $dir 200
-Write-Output ("      clubs in directory: {0}, Rotaract venue now: {1}" -f @($dir.data).Count, $rot.venue)
+Write-Output ("      clubs in directory: {0}" -f @($dir.data).Count)
 
 Check "login Coding Club admin" (Call POST "/auth/login" @{ email = "coding@rvce.edu.in"; password = "password123" } $adm2) 200
 Check "other club edits opening -> 403" (Call PUT "/openings/$newId" @{ title = "hacked" } $adm2) 403
