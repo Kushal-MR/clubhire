@@ -19,6 +19,7 @@ async function init() {
   renderNav(user);
   document.getElementById("clubTitle").textContent = (user.club && user.club.name) || "Club dashboard";
   loadOpenings();
+  loadClubDetails();
 }
 
 // ---------- openings table ----------
@@ -190,6 +191,44 @@ document.getElementById("applicantsList").addEventListener("click", async e => {
     renderApplicants();
   } catch (err) {
     toast(err.message, "error");
+  }
+});
+
+// ---------- club details (schedule, venue, links) ----------
+const CLUB_FIELDS = ["description", "recruitmentDates", "venue", "rounds", "formLink", "website", "instagram"];
+
+async function loadClubDetails() {
+  try {
+    const club = await api("GET", "/api/clubs/mine");
+    const f = document.getElementById("clubForm");
+    CLUB_FIELDS.forEach(name => { f[name].value = club[name] || ""; });
+    // open the section automatically if the schedule hasn't been filled in yet
+    if (!club.recruitmentDates) document.getElementById("clubDetails").open = true;
+  } catch (err) {
+    toast(err.message, "error");
+  }
+}
+
+document.getElementById("clubForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target;
+  const errorBox = document.getElementById("clubError");
+  const data = {};
+  CLUB_FIELDS.forEach(name => { data[name] = f[name].value.trim(); });
+
+  // links must be real web links (the server checks this too)
+  for (const name of ["formLink", "website", "instagram"]) {
+    if (data[name] && !/^https?:\/\//i.test(data[name])) {
+      errorBox.textContent = `${name === "formLink" ? "Google Form link" : name[0].toUpperCase() + name.slice(1)} must start with http:// or https://`;
+      return;
+    }
+  }
+  try {
+    await api("PUT", "/api/clubs/mine", data);
+    errorBox.textContent = "";
+    toast("Club details saved", "success");
+  } catch (err) {
+    errorBox.textContent = err.message;
   }
 });
 
