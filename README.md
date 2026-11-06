@@ -40,7 +40,7 @@ cd C:\
 git clone https://github.com/Kushal-MR/clubhire.git
 cd clubhire
 ```
-`git clone` downloads the whole project into a new `C:\clubhire` folder. Avoid keeping the project inside a Google Drive or OneDrive folder: syncing `node_modules` breaks things.
+`git clone` downloads the whole project into a new `clubhire` folder inside your current folder. Avoid keeping the project inside a Google Drive or OneDrive folder: syncing `node_modules` breaks things.
 
 ### 3. Set up (one time)
 **Windows, easiest:** open the `clubhire` folder in File Explorer and double-click **`setup.bat`**. It does the three things below and writes a log to `setup-log.txt`.
