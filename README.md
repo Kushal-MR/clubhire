@@ -1,4 +1,4 @@
-# ClubHire: RVCE Club Recruitment Portal
+# ClubHire: RVCE Club Recruitment Portal - Skill lab project
 
 A full-stack web app where RVCE clubs post recruitment openings and students apply and track their application from **Applied → Shortlisted → Interview → Selected**.
 
